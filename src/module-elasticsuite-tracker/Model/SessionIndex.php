@@ -85,7 +85,10 @@ class SessionIndex implements SessionIndexInterface
                 if (isset($session['store_id'])) {
                     $date = substr($session['start_date'], 0, 7);
                     $index = $this->indexResolver->getIndex(self::INDEX_IDENTIFIER, $session['store_id'], $date);
-                    if ($index !== null) {
+                    if (
+                        $index !== null &&
+                        isset($session['session_id'])
+                    ) {
                         $indices[$index->getName()] = $index;
                         $bulk->addDocument($index, $session['session_id'], $session);
                     }
